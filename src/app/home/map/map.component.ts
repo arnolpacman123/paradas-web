@@ -184,6 +184,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       lng: event.latLng.lng(),
     };
     this.putMarker(position);
+    this.lineRoutes = [];
   }
 
   putMarker(position: google.maps.LatLngLiteral) {
