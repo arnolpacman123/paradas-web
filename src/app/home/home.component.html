@@ -1,0 +1,51 @@
+<mat-sidenav-container
+  class="sidenav-container"
+  (backdropClick)="closeSidenav()"
+>
+  <mat-sidenav
+    #sidenav
+    (keydown.escape)="closeSidenav()"
+    disableClose
+    fixedBottomGap="0"
+  >
+
+    <mat-card *ngFor="let line of lines" class="px-5 py-1">
+      <mat-card-header>
+        <mat-card-title>
+          <h2>LÍNEA {{ line }}</h2>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="text-center">
+          <img
+            src="https://icon-library.com/images/bus-icon-png/bus-icon-png-29.jpg"
+            alt="bus"
+            height="50vh"
+            style="cursor: pointer"
+            (click)="selectLine(line)"
+          >
+        </div>
+        <div class="text-center">
+          <button mat-raised-button class="btn btn-success">Ver Más</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+
+    <div class="logo-container">
+      <img
+        class="img-center"
+        ngSrc="assets/images/logo-gamsc.png"
+        alt="logo"
+        height="426" width="1024"/>
+    </div>
+    <app-map [lineRoutes]="lineRoutesSelected"></app-map>
+    <div class="btn-menu-container">
+      <button mat-raised-button color="warn" (click)="sidenav.open()">Menú</button>
+    </div>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>
