@@ -133,6 +133,11 @@ export class HomeComponent {
     this.mapService.getPolylinesByLine(line).subscribe({
       next: (polylines) => {
         this.lineRoutesSelected = polylines;
+        this.closeSidenav();
+        this.isLoading = false;
+      },
+      error: () => {
+        this.closeSidenav();
         this.isLoading = false;
       },
     });
