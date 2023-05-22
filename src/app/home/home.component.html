@@ -25,10 +25,22 @@
             (click)="selectLine(line)"
           >
         </div>
-        <div class="text-center">
-          <button mat-raised-button class="btn btn-success">Ver Más</button>
-        </div>
       </mat-card-content>
+      <mat-card-actions>
+        <button
+          mat-raised-button
+        >
+          Ver Más
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          class="mx-2"
+          (click)="selectLine(line)"
+        >
+          Ver ruta
+        </button>
+      </mat-card-actions>
     </mat-card>
 
   </mat-sidenav>
