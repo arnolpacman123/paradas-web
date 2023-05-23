@@ -46,9 +46,10 @@
   </ng-container>
 
   <ng-container
-    *ngIf="polyline"
+    *ngIf="nearestPolylines"
   >
     <map-polyline
+      *ngFor="let polyline of nearestPolylines"
       [options]="polyline.options"
     ></map-polyline>
   </ng-container>

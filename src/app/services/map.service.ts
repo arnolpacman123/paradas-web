@@ -21,7 +21,7 @@ export class MapService {
   }
 
   findClosestPolylineAndPoint(polylines: Polyline[], point: google.maps.LatLngLiteral) {
-    return new Observable<Polyline>(observer => {
+    return new Observable<Polyline[]>(observer => {
       let minDistance = Infinity;
       let nearestPolyline!: Polyline;
 
@@ -39,7 +39,9 @@ export class MapService {
         });
       });
       if (nearestPolyline) {
-        observer.next(nearestPolyline);
+        // find all polylines with same busLine
+        const nearestPolylines = polylines.filter(polyline => polyline.busLine === nearestPolyline.busLine);
+        observer.next(nearestPolylines);
       } else {
         observer.error('Polyline not found');
       }

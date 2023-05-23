@@ -66,7 +66,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isLoading = false;
 
-  polyline!: Polyline;
+  nearestPolylines!: Polyline[];
   zoom = 14;
 
   myLocation!: google.maps.LatLngLiteral;
@@ -155,7 +155,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
           .findClosestPolylineAndPoint(this.allLinesRoutes, position)
           .subscribe({
             next: (polyline) => {
-              this.polyline = polyline;
+              this.nearestPolylines = polyline;
             },
           });
         this.destinationMarker = {
@@ -195,7 +195,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       .findClosestPolylineAndPoint(this.allLinesRoutes, point)
       .subscribe({
         next: (polyline) => {
-          this.polyline = polyline;
+          this.nearestPolylines = polyline;
           this.isLoading = false;
         },
       });
@@ -222,10 +222,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private putPolylineClosestToStand(param: google.maps.LatLngLiteral) {
-    this.mapService.findOneByStand(param).subscribe({
-      next: (polyline) => {
-        this.polyline = polyline;
-      },
-    });
+    // this.mapService.findOneByStand(param).subscribe({
+    //   next: (polyline) => {
+    //     this.nearestPolyline = polyline;
+    //   },
+    // });
   }
 }
