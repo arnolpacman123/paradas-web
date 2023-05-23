@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { environment } from "@environments/environment.prod";
-import { Polyline } from "@models/interfaces/maps/polyline";
 import { Observable } from "rxjs";
+import { Line, Polyline } from '@models/interfaces/maps';
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +49,12 @@ export class MapService {
   getAllLineRoutes() {
     return this.http.get<Polyline[]>(
       `${ environment.apiUrl }/polylines`
+    );
+  }
+
+  getLines() {
+    return this.http.get<Line[]>(
+      `${ environment.apiUrl }/lines`
     );
   }
 

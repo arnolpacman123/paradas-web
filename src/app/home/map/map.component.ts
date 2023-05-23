@@ -1,14 +1,22 @@
-import { AfterViewInit, Component, ElementRef, Input, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Polyline } from "@models/interfaces/maps/polyline";
-import { Marker } from "@models/interfaces/maps/marker.interface";
-import { GoogleMap, MapInfoWindow, MapMarker } from "@angular/google-maps";
-import { MapService } from "@services/map.service";
-import { ActivatedRoute } from "@angular/router";
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  NgZone,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { Marker, Polyline } from '@models/interfaces/maps';
+import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
+import { MapService } from '@services/map.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  styleUrls: [ './map.component.scss' ]
+  styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('myGoogleMap', { static: false })
@@ -37,9 +45,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       },
     },
     zoom: 14,
-  }
+  };
   center: google.maps.LatLngLiteral = {
-    lat: -17.797612047846986, lng: -63.19975002009344,
+    lat: -17.797612047846986,
+    lng: -63.19975002009344,
   };
 
   @Input()
@@ -60,11 +69,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   myLocation!: google.maps.LatLngLiteral;
 
-
   constructor(
     private readonly mapService: MapService,
     private readonly ngZone: NgZone,
-    private readonly route: ActivatedRoute,
+    private readonly route: ActivatedRoute
   ) {
     this.mapService.getAllLineRoutes().subscribe({
       next: (lineRoutes) => {
@@ -79,9 +87,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         this.center = {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
-        }
+        };
       });
-      navigator.geolocation.watchPosition(position => {
+      navigator.geolocation.watchPosition((position) => {
         this.ngZone.run(() => {
           this.myLocation = {
             lat: position.coords.latitude,
@@ -96,12 +104,13 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.route.queryParams.subscribe({
-      next: params => {
+      next: (params) => {
         const standString = params['stand'];
         if (!standString) {
           return;
         }
-        const [ lat, lng ] = (standString as string).split(',')
+        const [lat, lng] = (standString as string)
+          .split(',')
           .map((value) => +value);
         this.putMarker({ lat, lng });
         this.putPolylineClosestToStand({ lat, lng });
@@ -113,11 +122,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       this.searchElementRef.nativeElement,
       {
         componentRestrictions: { country: 'bo' },
-      },
+      }
     );
     // Align search box to center
     this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(
-      this.searchElementRef.nativeElement,
+      this.searchElementRef.nativeElement
     );
     autocomplete.addListener('place_changed', () => {
       this.ngZone.run(() => {
@@ -132,11 +141,13 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
           lng: place.geometry.location?.lng()!,
         };
 
-        this.mapService.findClosestPolylineAndPoint(this.allLineRoutes, position).subscribe({
-          next: (polyline) => {
-            this.polyline = polyline;
-          },
-        });
+        this.mapService
+          .findClosestPolylineAndPoint(this.allLineRoutes, position)
+          .subscribe({
+            next: (polyline) => {
+              this.polyline = polyline;
+            },
+          });
         this.destinationMarker = {
           position,
         };
@@ -170,12 +181,14 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       lat: event.latLng.lat(),
       lng: event.latLng.lng(),
     };
-    this.mapService.findClosestPolylineAndPoint(this.allLineRoutes, point).subscribe({
-      next: (polyline) => {
-        this.polyline = polyline;
-        this.isLoading = false;
-      },
-    });
+    this.mapService
+      .findClosestPolylineAndPoint(this.allLineRoutes, point)
+      .subscribe({
+        next: (polyline) => {
+          this.polyline = polyline;
+          this.isLoading = false;
+        },
+      });
   }
 
   dropMarker(event: any) {
