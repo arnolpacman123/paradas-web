@@ -55,7 +55,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   lineRoutes!: Polyline[];
   destinationMarker!: Marker;
 
-  allLineRoutes: Polyline[] = [];
+  allLinesRoutes: Polyline[] = [];
+
+  allChannels: Polyline[] = [];
 
   @ViewChild(MapInfoWindow, { static: false })
   info!: MapInfoWindow;
@@ -69,14 +71,22 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   myLocation!: google.maps.LatLngLiteral;
 
+  @Input()
+  showChannels = false;
+
   constructor(
     private readonly mapService: MapService,
     private readonly ngZone: NgZone,
     private readonly route: ActivatedRoute
   ) {
-    this.mapService.getAllLineRoutes().subscribe({
+    this.mapService.findAllLinesRoutes().subscribe({
       next: (lineRoutes) => {
-        this.allLineRoutes = lineRoutes;
+        this.allLinesRoutes = lineRoutes;
+      },
+    });
+    this.mapService.findAllChannels().subscribe({
+      next: (channels) => {
+        this.allChannels = channels;
       },
     });
   }
@@ -142,7 +152,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         };
 
         this.mapService
-          .findClosestPolylineAndPoint(this.allLineRoutes, position)
+          .findClosestPolylineAndPoint(this.allLinesRoutes, position)
           .subscribe({
             next: (polyline) => {
               this.polyline = polyline;
@@ -182,7 +192,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       lng: event.latLng.lng(),
     };
     this.mapService
-      .findClosestPolylineAndPoint(this.allLineRoutes, point)
+      .findClosestPolylineAndPoint(this.allLinesRoutes, point)
       .subscribe({
         next: (polyline) => {
           this.polyline = polyline;
@@ -206,8 +216,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         lat: position.lat,
         lng: position.lng,
       },
-      title: 'Marker title ' + (this.allLineRoutes.length + 1),
-      info: 'Marker info ' + (this.allLineRoutes.length + 1),
+      title: 'Marker title ' + (this.allLinesRoutes.length + 1),
+      info: 'Marker info ' + (this.allLinesRoutes.length + 1),
     };
   }
 

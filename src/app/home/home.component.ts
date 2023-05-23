@@ -17,6 +17,8 @@ export class HomeComponent {
 
   lineRoutesSelected!: Polyline[];
 
+  showChannels = false;
+
   constructor(private readonly mapService: MapService) {
     mapService.getLines().subscribe({
       next: (lines) => {

@@ -46,11 +46,18 @@ export class MapService {
     });
   }
 
-  getAllLineRoutes() {
+  findAllLinesRoutes() {
     return this.http.get<Polyline[]>(
-      `${ environment.apiUrl }/polylines`
+      `${ environment.apiUrl }/polylines/lines-routes`
     );
   }
+
+  findAllChannels() {
+    return this.http.get<Polyline[]>(
+      `${ environment.apiUrl }/polylines/channels`
+    );
+  }
+  
 
   getLines() {
     return this.http.get<Line[]>(
