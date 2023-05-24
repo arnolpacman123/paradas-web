@@ -1,12 +1,10 @@
-<div>
   <input
     type="text"
-    class="my-search-box m-5"
+    class="my-search-box mb"
     (keydown.enter)="$event.preventDefault()"
     placeholder="Introduce el destino"
     #search
   />
-</div>
 <google-map
   #myGoogleMap
   height="90%"

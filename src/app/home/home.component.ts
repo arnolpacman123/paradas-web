@@ -28,7 +28,7 @@ export class HomeComponent {
   }
 
   closeSidenav(): void {
-    this.sidenav.close();
+    this.sidenav.toggle();
   }
 
   selectLine(line: string) {

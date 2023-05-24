@@ -39,9 +39,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     restriction: {
       latLngBounds: {
         north: -17.136612047846986,
-        east: -63.00000000009444,
-        south: -18.099612047847986,
-        west: -63.39995002009344,
+        east: -62.59999999999444,
+        south: -18.299612047847986,
+        west: -63.59995002009344,
       },
     },
     zoom: 14,
@@ -53,6 +53,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input()
   lineRoutes!: Polyline[];
+  
   destinationMarker!: Marker;
 
   allLinesRoutes: Polyline[] = [];
