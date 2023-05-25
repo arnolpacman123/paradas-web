@@ -18,6 +18,8 @@ export class HomeComponent {
   lineRoutesSelected!: Polyline[];
 
   showChannels = false;
+  showSlideToggleStands = false;
+  showStands = false;
 
   constructor(private readonly mapService: MapService) {
     mapService.getLines().subscribe({

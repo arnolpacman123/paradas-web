@@ -45,20 +45,34 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       },
     },
     zoom: 14,
+    rotateControl: true,
   };
   center: google.maps.LatLngLiteral = {
     lat: -17.797612047846986,
     lng: -63.19975002009344,
   };
 
+  myLocationOptions: google.maps.MarkerOptions = {
+    icon: {
+      path: google.maps.SymbolPath.CIRCLE,
+      scale: 7,
+      fillOpacity: 1,
+      strokeWeight: 2,
+      fillColor: '#5384ED',
+      strokeColor: '#ffffff',
+    },
+  };
+
   @Input()
   lineRoutes!: Polyline[];
-  
+
   destinationMarker!: Marker;
 
   allLinesRoutes: Polyline[] = [];
 
   allChannels: Polyline[] = [];
+
+  allStands: Marker[] = [];
 
   @ViewChild(MapInfoWindow, { static: false })
   info!: MapInfoWindow;
@@ -75,6 +89,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input()
   showChannels = false;
 
+  @Input()
+  showStands = false;
+
   constructor(
     private readonly mapService: MapService,
     private readonly ngZone: NgZone,
@@ -88,12 +105,17 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.mapService.findAllChannels().subscribe({
       next: (channels) => {
         this.allChannels = channels;
+        this.allChannels.forEach((channel) => {
+          const stands = channel.stands!;
+          this.allStands.push(...stands);
+        });
       },
     });
   }
 
   ngOnInit(): void {
     if (navigator.geolocation) {
+      console.log("XD");
       navigator.geolocation.getCurrentPosition((position) => {
         this.center = {
           lat: position.coords.latitude,
@@ -155,8 +177,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         this.mapService
           .findClosestPolylineAndPoint(this.allLinesRoutes, position)
           .subscribe({
-            next: (polyline) => {
-              this.nearestPolylines = polyline;
+            next: (nearestPolylines) => {
+              this.lineRoutes = nearestPolylines;
             },
           });
         this.destinationMarker = {
@@ -195,8 +217,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.mapService
       .findClosestPolylineAndPoint(this.allLinesRoutes, point)
       .subscribe({
-        next: (polyline) => {
-          this.nearestPolylines = polyline;
+        next: (nearestPolylines) => {
+          this.lineRoutes = nearestPolylines;
           this.isLoading = false;
         },
       });
@@ -217,9 +239,12 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         lat: position.lat,
         lng: position.lng,
       },
-      title: 'Marker title ' + (this.allLinesRoutes.length + 1),
-      info: 'Marker info ' + (this.allLinesRoutes.length + 1),
     };
+  }
+
+  clearMarker() {
+    this.destinationMarker = undefined!;
+    this.lineRoutes = [];
   }
 
   private putPolylineClosestToStand(param: google.maps.LatLngLiteral) {

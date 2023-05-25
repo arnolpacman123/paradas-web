@@ -22,7 +22,6 @@ import { NgOptimizedImage } from "@angular/common";
     GoogleMapsModule,
     FormsModule,
     HttpClientModule,
-    MatNativeDateModule,
     ReactiveFormsModule,
     AngularMaterialModule,
     NgOptimizedImage,

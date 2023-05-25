@@ -22,6 +22,16 @@
   background: #eee;
 }
 
+.sidenav {
+  width: 25%;
+}
+
+@media screen and (max-width: 768px) {
+  .sidenav {
+    width: 75%;
+  }
+}
+
 .btn-menu-container {
   position: absolute;
   top: 105px;
