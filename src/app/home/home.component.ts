@@ -75,6 +75,7 @@ export class HomeComponent {
           default:
            alert("An unknown error occurred.");
             break;
+        }
       });
     } else {
       alert('La geolocalización no está disponible en este dispositivo.');
