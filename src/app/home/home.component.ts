@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MapService } from '@services/map.service';
 import { Line, Polyline } from '@models/interfaces/maps';
+import { MapComponent } from "./map/map.component";
 
 @Component({
   selector: 'app-home',
@@ -10,6 +11,7 @@ import { Line, Polyline } from '@models/interfaces/maps';
 })
 export class HomeComponent {
   @ViewChild('sidenav') sidenav!: MatSidenav;
+  @ViewChild('appMap') appMap!: MapComponent;
 
   lines: Line[] = [];
 
@@ -18,7 +20,6 @@ export class HomeComponent {
   lineRoutesSelected!: Polyline[];
 
   showChannels = false;
-  showSlideToggleStands = false;
   showStands = false;
 
   constructor(private readonly mapService: MapService) {
@@ -46,5 +47,13 @@ export class HomeComponent {
         this.isLoading = false;
       },
     });
+  }
+
+  rotateRight() {
+    this.appMap.rotateMap(22.5);
+  }
+
+  rotateLeft() {
+    this.appMap.rotateMap(-22.5);
   }
 }

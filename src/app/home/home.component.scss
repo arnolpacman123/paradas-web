@@ -34,7 +34,7 @@
 
 .btn-menu-container {
   position: absolute;
-  top: 105px;
+  top: calc(90px + 20px);
   left: 20px;
   z-index: 1;
 }

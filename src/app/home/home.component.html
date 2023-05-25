@@ -48,19 +48,21 @@
     <div class="logo-container">
       <img class="img-center" ngSrc="assets/images/logo-gamsc.png" alt="logo" height="426" width="1024"/>
     </div>
-    <app-map [lineRoutes]="lineRoutesSelected" [showChannels]="showChannels" [showStands]="showStands"></app-map>
+
+    <app-map #appMap [lineRoutes]="lineRoutesSelected" [showChannels]="showChannels" [showStands]="showStands"></app-map>
+
     <div class="btn-menu-container">
       <button mat-raised-button color="warn" (click)="sidenav.open()">Menú</button>
     </div>
 
     <div class="btn-rotate-left">
-      <button mat-fab color="primary" class="btn-rotate">
+      <button mat-fab color="primary" class="btn-rotate" (click)="rotateRight()">
         <mat-icon class="icon-display">rotate_right</mat-icon>
       </button>
     </div>
 
     <div class="btn-rotate-right">
-      <button mat-fab color="primary" class="btn-rotate">
+      <button mat-fab color="primary" class="btn-rotate" (click)="rotateLeft()">
         <mat-icon class="icon-display">rotate_left</mat-icon>
       </button>
     </div>

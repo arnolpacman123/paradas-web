@@ -48,6 +48,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     streetViewControlOptions: {
       position: google.maps.ControlPosition.LEFT_BOTTOM,
     },
+    mapId: 'a24e498d0a606a2d'
   };
   center: google.maps.LatLngLiteral = {
     lat: -17.797612047846986,
@@ -197,11 +198,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  mapClick(marker: MapMarker, content: string) {
-    this.infoContent = content;
-    this.info.open(marker);
-  }
-
   eventHandler(event: any, name: string) {
     // Add marker on double click event
     if (name === 'mapDblclick') {
@@ -249,10 +245,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.lineRoutes = [];
   }
 
-  rotateMap() {
+  rotateMap(value: number) {
     const mapInstance = this.map.googleMap!;
     const currentHeading = mapInstance.getHeading() || 0;
-    const newHeading = currentHeading + 45;
+    const newHeading = currentHeading + value;
     mapInstance.setOptions({ heading: newHeading });
   }
 
