@@ -54,6 +54,15 @@ export class HomeComponent {
   }
 
   enableMyLocation() {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        console.log(`Latitud: ${latitude}, Longitud: ${longitude}`);
+      });
+    } else {
+      console.log('La geolocalización no está disponible en este dispositivo.');
+    }
   }
 
   rotateLeft() {
