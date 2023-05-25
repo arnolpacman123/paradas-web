@@ -57,10 +57,10 @@ export class HomeComponent {
     alert('Habilitar geolocalización');
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
-        alert('Geolocalización habilitada');
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
-        console.log(`Latitud: ${ latitude }, Longitud: ${ longitude }`);
+        this.appMap.myLocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
       }, (error) => {
         switch(error.code) {
           case error.PERMISSION_DENIED:
