@@ -55,7 +55,7 @@ export class HomeComponent {
 
   enableMyLocation() {
     alert('Habilitar geolocalización');
-    if ('geolocation' in navigator) {
+    if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         alert('Geolocalización habilitada');
         const latitude = position.coords.latitude;
