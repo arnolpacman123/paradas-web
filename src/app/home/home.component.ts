@@ -7,7 +7,7 @@ import { MapComponent } from "./map/map.component";
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  styleUrls: [ './home.component.scss' ],
 })
 export class HomeComponent {
   @ViewChild('sidenav') sidenav!: MatSidenav;
@@ -54,11 +54,15 @@ export class HomeComponent {
   }
 
   enableMyLocation() {
+    alert('Habilitar geolocalización');
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
+        alert('Geolocalización habilitada');
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
-        console.log(`Latitud: ${latitude}, Longitud: ${longitude}`);
+        console.log(`Latitud: ${ latitude }, Longitud: ${ longitude }`);
+      }, () => {
+        alert('Geolocalización no habilitada');
       });
     } else {
       console.log('La geolocalización no está disponible en este dispositivo.');
