@@ -53,6 +53,9 @@ export class HomeComponent {
     this.appMap.rotateMap(22.5);
   }
 
+  enableMyLocation() {
+  }
+
   rotateLeft() {
     this.appMap.rotateMap(-22.5);
   }

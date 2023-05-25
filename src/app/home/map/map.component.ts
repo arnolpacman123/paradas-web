@@ -9,7 +9,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Marker, Polyline } from '@models/interfaces/maps';
-import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
+import { GoogleMap, MapInfoWindow } from '@angular/google-maps';
 import { MapService } from '@services/map.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -94,11 +94,14 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input()
   showStands = false;
+  watchId!: number;
+
+  isGpsEnabled = false;
 
   constructor(
     private readonly mapService: MapService,
     private readonly ngZone: NgZone,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
   ) {
     this.mapService.findAllLinesRoutes().subscribe({
       next: (lineRoutes) => {
@@ -117,25 +120,58 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.center = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
-      });
-      navigator.geolocation.watchPosition((position) => {
-        this.ngZone.run(() => {
-          this.myLocation = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          };
-        });
-      });
+    this.enableMyLocation();
+  }
+
+  enableMyLocation() {
+    // Verificar si el navegador admite la geolocalización
+    if ("geolocation" in navigator) {
+      this.isGpsEnabled = false;
+
+      // Verificar el estado inicial de la geolocalización
+      this.checkGpsStatus();
+
+      // Verificar el estado de la geolocalización en un intervalo regular (por ejemplo, cada segundo)
+      setInterval(this.checkGpsStatus, 1000);
     } else {
-      alert('Geolocation is not supported by this browser.');
+      console.log("La geolocalización no es compatible en este navegador.");
     }
   }
+
+  checkGpsStatus = () => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        if (!this.isGpsEnabled) {
+          // El GPS se activó
+          console.log("El GPS está activado");
+          this.isGpsEnabled = true;
+
+          // Obtener la ubicación actual
+          this.watchId = navigator.geolocation.watchPosition((position) => {
+            const { latitude, longitude } = position.coords;
+            console.log("Ubicación actualizada");
+            console.log("Latitud: " + latitude);
+            console.log("Longitud: " + longitude);
+            this.myLocation = {
+              lat: latitude,
+              lng: longitude,
+            };
+          }, (error) => {
+            this.myLocation = undefined!;
+          });
+        }
+      },
+      () => {
+        if (this.isGpsEnabled) {
+          // El GPS se desactivó
+          console.log("El GPS está desactivado");
+          this.isGpsEnabled = false;
+          navigator.geolocation.clearWatch(this.watchId);
+          this.myLocation = undefined!;
+        }
+      }
+    );
+  };
 
   ngAfterViewInit(): void {
     this.route.queryParams.subscribe({
@@ -153,6 +189,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         this.zoom = 20;
       },
     });
+
     let autocomplete = new google.maps.places.Autocomplete(
       this.searchElementRef.nativeElement,
       {
@@ -194,7 +231,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.ngZone.runOutsideAngular(() => {
-      navigator.geolocation.clearWatch(0);
+      navigator.geolocation.clearWatch(this.watchId);
     });
   }
 
