@@ -39,6 +39,11 @@
   z-index: 1;
 }
 
+.btn-rotate {
+  height: 40px;
+  width: 40px
+}
+
 .btn-rotate-left {
   position: absolute;
   z-index: 1;
@@ -46,14 +51,14 @@
   left: 20px;
 }
 
-.btn-rotate {
-  height: 45px;
-  width: 45px
-}
 
 .btn-rotate-right {
   position: absolute;
   z-index: 1;
   top: 50%;
   right: 20px;
+}
+
+.icon-display {
+  transform: scale(0.8);
 }

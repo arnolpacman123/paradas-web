@@ -28,7 +28,7 @@
       </div>
       <div class="text-center">
         <img src="https://icon-library.com/images/bus-icon-png/bus-icon-png-29.jpg" alt="bus" height="50vh"
-          style="cursor: pointer" (click)="selectLine(line.name)">
+             style="cursor: pointer" (click)="selectLine(line.name)">
       </div>
       <div class="text-center mt-3">
         <button mat-raised-button color="primary" (click)="selectLine(line.name)">
@@ -46,7 +46,7 @@
   <mat-sidenav-content>
 
     <div class="logo-container">
-      <img class="img-center" ngSrc="assets/images/logo-gamsc.png" alt="logo" height="426" width="1024" />
+      <img class="img-center" ngSrc="assets/images/logo-gamsc.png" alt="logo" height="426" width="1024"/>
     </div>
     <app-map [lineRoutes]="lineRoutesSelected" [showChannels]="showChannels" [showStands]="showStands"></app-map>
     <div class="btn-menu-container">
@@ -55,13 +55,13 @@
 
     <div class="btn-rotate-left">
       <button mat-fab color="primary" class="btn-rotate">
-        <mat-icon>rotate_right</mat-icon>
+        <mat-icon class="icon-display">rotate_right</mat-icon>
       </button>
     </div>
 
     <div class="btn-rotate-right">
       <button mat-fab color="primary" class="btn-rotate">
-        <mat-icon>rotate_left</mat-icon>
+        <mat-icon class="icon-display">rotate_left</mat-icon>
       </button>
     </div>
 
