@@ -124,18 +124,18 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   enableMyLocation() {
-    // Verificar si el navegador admite la geolocalización
-    if ("geolocation" in navigator) {
-      this.isGpsEnabled = false;
-
-      // Verificar el estado inicial de la geolocalización
-      this.checkGpsStatus();
-
-      // Verificar el estado de la geolocalización en un intervalo regular (por ejemplo, cada segundo)
-      setInterval(this.checkGpsStatus, 1000);
-    } else {
-      console.log("La geolocalización no es compatible en este navegador.");
-    }
+    // // Verificar si el navegador admite la geolocalización
+    // if ("geolocation" in navigator) {
+    //   this.isGpsEnabled = false;
+    //
+    //   // Verificar el estado inicial de la geolocalización
+    //   this.checkGpsStatus();
+    //
+    //   // Verificar el estado de la geolocalización en un intervalo regular (por ejemplo, cada segundo)
+    //   setInterval(this.checkGpsStatus, 1000);
+    // } else {
+    //   console.log("La geolocalización no es compatible en este navegador.");
+    // }
   }
 
   checkGpsStatus = () => {
