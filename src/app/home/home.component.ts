@@ -65,7 +65,7 @@ export class HomeComponent {
         alert('Geolocalización no habilitada');
       });
     } else {
-      console.log('La geolocalización no está disponible en este dispositivo.');
+      alert('La geolocalización no está disponible en este dispositivo.');
     }
   }
 
