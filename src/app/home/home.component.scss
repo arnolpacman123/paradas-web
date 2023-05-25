@@ -38,3 +38,22 @@
   left: 20px;
   z-index: 1;
 }
+
+.btn-rotate-left {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 20px;
+}
+
+.btn-rotate {
+  height: 45px;
+  width: 45px
+}
+
+.btn-rotate-right {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  right: 20px;
+}

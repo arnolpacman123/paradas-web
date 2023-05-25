@@ -16,7 +16,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.scss'],
+  styleUrls: [ './map.component.scss' ],
 })
 export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('myGoogleMap', { static: false })
@@ -45,7 +45,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       },
     },
     zoom: 14,
-    rotateControl: true,
+    streetViewControlOptions: {
+      position: google.maps.ControlPosition.LEFT_BOTTOM,
+    },
   };
   center: google.maps.LatLngLiteral = {
     lat: -17.797612047846986,
@@ -115,7 +117,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     if (navigator.geolocation) {
-      console.log("XD");
       navigator.geolocation.getCurrentPosition((position) => {
         this.center = {
           lat: position.coords.latitude,
@@ -142,7 +143,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!standString) {
           return;
         }
-        const [lat, lng] = (standString as string)
+        const [ lat, lng ] = (standString as string)
           .split(',')
           .map((value) => +value);
         this.putMarker({ lat, lng });
@@ -157,6 +158,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         componentRestrictions: { country: 'bo' },
       }
     );
+
     // Align search box to center
     this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(
       this.searchElementRef.nativeElement
@@ -245,6 +247,17 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   clearMarker() {
     this.destinationMarker = undefined!;
     this.lineRoutes = [];
+  }
+
+  rotateMap() {
+    const mapInstance = this.map.googleMap!;
+    const currentHeading = mapInstance.getHeading() || 0;
+    const newHeading = currentHeading + 45;
+    mapInstance.setOptions({ heading: newHeading });
+  }
+
+  get height(): number {
+    return window.innerHeight - 90;
   }
 
   private putPolylineClosestToStand(param: google.maps.LatLngLiteral) {
