@@ -62,7 +62,19 @@ export class HomeComponent {
         const longitude = position.coords.longitude;
         console.log(`Latitud: ${ latitude }, Longitud: ${ longitude }`);
       }, (error) => {
-        alert(error);
+        switch(error.code) {
+          case error.PERMISSION_DENIED:
+           alert("User denied the request for Geolocation.");
+            break;
+          case error.POSITION_UNAVAILABLE:
+           alert("Location information is unavailable.");
+            break;
+          case error.TIMEOUT:
+           alert("The request to get user location timed out.");
+            break;
+          default:
+           alert("An unknown error occurred.");
+            break;
       });
     } else {
       alert('La geolocalización no está disponible en este dispositivo.');
