@@ -127,7 +127,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   enableMyLocation() {
     if (navigator.geolocation) {
       this.isGpsEnabled = true;
-      navigator.geolocation.watchPosition(
+      this.watchId = navigator.geolocation.watchPosition(
         (position) => {
           this.myLocation = {
             lat: position.coords.latitude,
@@ -136,10 +136,16 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         },
         (error) => {
           this.isGpsEnabled = false;
-          this.myLocation = undefined!;
-          this.enableMyLocation();
+          console.error(error);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0,
         }
       );
+    } else {
+      this.isGpsEnabled = false;
     }
   }
 
