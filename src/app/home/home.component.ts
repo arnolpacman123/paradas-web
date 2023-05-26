@@ -50,9 +50,6 @@ export class HomeComponent {
     });
   }
 
-  rotateRight() {
-    this.appMap.rotateMap(22.5);
-  }
 
   enableMyLocation() {
     if (navigator.geolocation) {
@@ -102,7 +99,4 @@ export class HomeComponent {
     });
   }
 
-  rotateLeft() {
-    this.appMap.rotateMap(-22.5);
-  }
 }

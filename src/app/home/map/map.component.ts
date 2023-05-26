@@ -276,13 +276,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.lineRoutes = [];
   }
 
-  rotateMap(value: number) {
-    const mapInstance = this.map.googleMap!;
-    const currentHeading = mapInstance.getHeading() || 0;
-    const newHeading = currentHeading + value;
-    mapInstance.setOptions({ heading: newHeading });
-  }
-
   get height(): number {
     return window.innerHeight - 90;
   }
