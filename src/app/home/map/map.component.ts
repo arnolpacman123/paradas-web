@@ -125,54 +125,27 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   enableMyLocation() {
-    // // Verificar si el navegador admite la geolocalización
-    // if ("geolocation" in navigator) {
-    //   this.isGpsEnabled = false;
-    //
-    //   // Verificar el estado inicial de la geolocalización
-    //   this.checkGpsStatus();
-    //
-    //   // Verificar el estado de la geolocalización en un intervalo regular (por ejemplo, cada segundo)
-    //   setInterval(this.checkGpsStatus, 1000);
-    // } else {
-    //   console.log("La geolocalización no es compatible en este navegador.");
-    // }
+    if (navigator.geolocation) {
+      this.isGpsEnabled = true;
+      navigator.geolocation.watchPosition(
+        (position) => {
+          console.log('El gps se ha activado');
+          this.myLocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          this.map.panTo(this.myLocation);
+        },
+        (error) => {
+          console.log('El gps está desactivado');
+          this.isGpsEnabled = false;
+          this.myLocation = undefined!;
+          this.enableMyLocation();
+        }
+      );
+    }
   }
 
-  checkGpsStatus = () => {
-    navigator.geolocation.getCurrentPosition(
-      () => {
-        if (!this.isGpsEnabled) {
-          // El GPS se activó
-          console.log("El GPS está activado");
-          this.isGpsEnabled = true;
-
-          // Obtener la ubicación actual
-          this.watchId = navigator.geolocation.watchPosition((position) => {
-            const { latitude, longitude } = position.coords;
-            console.log("Ubicación actualizada");
-            console.log("Latitud: " + latitude);
-            console.log("Longitud: " + longitude);
-            this.myLocation = {
-              lat: latitude,
-              lng: longitude,
-            };
-          }, () => {
-            this.myLocation = undefined!;
-          });
-        }
-      },
-      () => {
-        if (this.isGpsEnabled) {
-          // El GPS se desactivó
-          console.log("El GPS está desactivado");
-          this.isGpsEnabled = false;
-          navigator.geolocation.clearWatch(this.watchId);
-          this.myLocation = undefined!;
-        }
-      }
-    );
-  };
 
   ngAfterViewInit(): void {
     this.route.queryParams.subscribe({
