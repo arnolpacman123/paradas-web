@@ -25,13 +25,13 @@
     </div>
     <div class="text-center">
       <img src="https://icon-library.com/images/bus-icon-png/bus-icon-png-29.jpg" alt="bus" height="50vh"
-           style="cursor: pointer" (click)="selectLine(line.name)">
+           style="cursor: pointer" (click)="selectShowLineRouteInfo(line.name)">
     </div>
     <div class="text-center mt-3">
       <button mat-raised-button color="primary" (click)="selectLine(line.name)">
         Ver ruta
       </button>
-      <button mat-raised-button color="warn" class="mx-2">
+      <button mat-raised-button color="warn" class="mx-2" (click)="selectShowLineRouteInfo(line.name)">
         Ver Más
       </button>
     </div>
@@ -42,5 +42,12 @@
 <ng-template
   #showLineInfo
 >
-
+  <div class="container mt-5">
+    <div class="text-center">
+      <h2>Línea {{ lineSelected | titlecase }}</h2>
+    </div>
+    <div class="text-center">
+      <img src="https://icon-library.com/images/bus-icon-png/bus-icon-png-29.jpg" alt="bus" height="50vh" style="cursor: pointer;" (click)="selectShowLineRouteInfo(lineSelected)">
+    </div>
+  </div>
 </ng-template>

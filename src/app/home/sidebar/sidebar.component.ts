@@ -32,6 +32,8 @@ export class SidebarComponent {
   @Output()
   lineRoutesSelectedChange = new EventEmitter<Polyline[]>();
 
+  lineSelected!: string;
+
   constructor(
     private readonly mapService: MapService,
   ) {
@@ -58,5 +60,10 @@ export class SidebarComponent {
   toggleShowStands() {
     this.showStands = !this.showStands;
     this.showStandsChange.emit(this.showStands);
+  }
+
+  selectShowLineRouteInfo(line: string) {
+    this.showLineRouteInfo = !this.showLineRouteInfo;
+    this.lineSelected = line;
   }
 }

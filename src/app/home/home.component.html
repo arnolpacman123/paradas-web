@@ -1,5 +1,5 @@
 <mat-sidenav-container class="sidenav-container" (backdropClick)="closeSidenav()">
-  <mat-sidenav class="sidenav" #sidenav (keydown.escape)="closeSidenav()" autoFocus="false" fixedBottomGap="0">
+  <mat-sidenav class="sidenav" #sidenav (keydown.escape)="closeSidenav()" [autoFocus]="false" fixedBottomGap="0">
 
     <app-sidebar [lines]="lines" [(showChannels)]="showChannels" [(showStands)]="showStands" [(lineRoutesSelected)]="lineRoutesSelected"></app-sidebar>
 
