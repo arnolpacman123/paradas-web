@@ -99,6 +99,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   watchId!: number;
 
   isGpsEnabled = false;
+  standIcon: google.maps.Icon = {
+    url: 'assets/images/bus.png',
+    scaledSize: new google.maps.Size(45, 20),
+  };
 
   constructor(
     private readonly mapService: MapService,

@@ -28,7 +28,7 @@
   </ng-container>
 
   <ng-container *ngIf="destinationMarker">
-    <map-marker #markerElem="mapMarker" [position]="destinationMarker.position" [title]="destinationMarker.title!"
+    <map-marker [position]="destinationMarker.position" [title]="destinationMarker.title!"
                 [options]="destinationMarker.options!" (mapDblclick)="clearMarker()">
     </map-marker>
     >
@@ -39,7 +39,7 @@
   </ng-container>
 
   <ng-container *ngIf="showStands">
-    <map-marker *ngFor="let stand of allStands" [position]="stand.position">
+    <map-marker *ngFor="let stand of allStands" [position]="stand.position" [icon]="standIcon">
     </map-marker>
   </ng-container>
 
