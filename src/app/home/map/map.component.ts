@@ -129,15 +129,12 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       this.isGpsEnabled = true;
       navigator.geolocation.watchPosition(
         (position) => {
-          console.log('El gps se ha activado');
           this.myLocation = {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
-          this.map.panTo(this.myLocation);
         },
         (error) => {
-          console.log('El gps está desactivado');
           this.isGpsEnabled = false;
           this.myLocation = undefined!;
           this.enableMyLocation();
