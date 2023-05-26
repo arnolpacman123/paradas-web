@@ -12,6 +12,7 @@ import { Marker, Polyline } from '@models/interfaces/maps';
 import { GoogleMap, MapInfoWindow } from '@angular/google-maps';
 import { MapService } from '@services/map.service';
 import { ActivatedRoute } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-map',
@@ -144,7 +145,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       () => {
         this.isGpsEnabled = false;
         this.myLocation = undefined!;
-        alert('El gps esta desactivado. Vuelva a activarlo para un mejor uso de la aplicación.');
+        this.showAlert('error', 'Oops...', 'El GPS no esta activado, por favor activalo para poder ver tu ubicación en el mapa.');
       },
       {
         enableHighAccuracy: true,
@@ -154,6 +155,13 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
+  showAlert(icon: any, title: string, text: string) {
+    Swal.fire({
+      icon,
+      title,
+      text,
+    });
+  }
 
   ngAfterViewInit(): void {
     this.route.queryParams.subscribe({

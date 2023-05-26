@@ -3,6 +3,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { MapService } from '@services/map.service';
 import { Line, Polyline } from '@models/interfaces/maps';
 import { MapComponent } from "./map/map.component";
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-home',
@@ -66,28 +67,39 @@ export class HomeComponent {
           this.appMap.map.panTo(this.appMap.myLocation);
           this.appMap.observeMyLocation();
         } else {
-          this.appMap.isGpsEnabled = false;
+          this.appMap.isGpsEnabled = true;
           navigator.geolocation.clearWatch(this.appMap.watchId);
+          this.appMap.observeMyLocation();
         }
       }, (error) => {
+        const errorIcon = 'error';
+        const errorTitle = 'Oops...';
         switch (error.code) {
           case error.PERMISSION_DENIED:
-            alert('El usuario no ha permitido el acceso a la geolocalización.');
+            this.showAlert(errorIcon, errorTitle, 'El usuario no ha permitido el acceso a la geolocalización.');
             break;
           case error.POSITION_UNAVAILABLE:
-            alert('La información de la geolocalización no está disponible.');
+            this.showAlert(errorIcon, errorTitle, 'La información de la geolocalización no está disponible.');
             break;
           case error.TIMEOUT:
-            alert('La petición de geolocalización ha caducado.');
+            this.showAlert(errorIcon, errorTitle, 'La petición de geolocalización ha caducado.');
             break;
           default:
-            alert('Se ha producido un error desconocido.');
+            this.showAlert(errorIcon, errorTitle, 'Se ha producido un error desconocido.');
             break;
         }
       });
     } else {
-      alert('La geolocalización no está disponible en este dispositivo.');
+      this.showAlert('error', 'Oops...', 'La geolocalización no está disponible en este dispositivo.');
     }
+  }
+
+  showAlert(icon: any, title: string, text: string) {
+    Swal.fire({
+      icon: icon,
+      title: title,
+      text: text,
+    });
   }
 
   rotateLeft() {
