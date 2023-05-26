@@ -126,27 +126,32 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   enableMyLocation() {
     if (navigator.geolocation) {
-      this.isGpsEnabled = true;
-      this.watchId = navigator.geolocation.watchPosition(
-        (position) => {
-          this.myLocation = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          };
-        },
-        (error) => {
-          this.isGpsEnabled = false;
-          console.error(error);
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 5000,
-          maximumAge: 0,
-        }
-      );
+      this.observeMyLocation();
     } else {
       this.isGpsEnabled = false;
     }
+  }
+
+  observeMyLocation() {
+    this.watchId = navigator.geolocation.watchPosition(
+      (position) => {
+        this.isGpsEnabled = true;
+        this.myLocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+      },
+      () => {
+        this.isGpsEnabled = false;
+        this.myLocation = undefined!;
+        alert('El gps esta desactivado. Vuelva a activarlo para un mejor uso de la aplicación.');
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0,
+      }
+    );
   }
 
 

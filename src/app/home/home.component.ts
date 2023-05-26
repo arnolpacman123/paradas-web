@@ -56,11 +56,21 @@ export class HomeComponent {
   enableMyLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
-        this.appMap.myLocation = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
-        this.appMap.map.panTo(this.appMap.myLocation);
+        if (this.appMap.isGpsEnabled) {
+          console.log('GPS enabled');
+          const { latitude, longitude } = position.coords;
+          this.appMap.myLocation = {
+            lat: latitude,
+            lng: longitude,
+          };
+          navigator.geolocation.clearWatch(this.appMap.watchId);
+          this.appMap.map.panTo(this.appMap.myLocation);
+          this.appMap.observeMyLocation();
+        } else {
+          console.log('GPS disabled');
+          this.appMap.isGpsEnabled = false;
+          navigator.geolocation.clearWatch(this.appMap.watchId);
+        }
       }, (error) => {
         switch (error.code) {
           case error.PERMISSION_DENIED:

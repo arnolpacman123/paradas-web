@@ -1,8 +1,6 @@
 <mat-sidenav-container class="sidenav-container" (backdropClick)="closeSidenav()">
   <mat-sidenav class="sidenav" #sidenav (keydown.escape)="closeSidenav()" disableClose fixedBottomGap="0">
 
-    <!-- <mat-card> -->
-    <!-- <mat-card-content> -->
     <div class="mt-4">
       <div class="text-center">
         <h2>Opciones de Canales</h2>
@@ -46,10 +44,12 @@
   <mat-sidenav-content>
 
     <div class="logo-container">
-      <img class="img-center" ngSrc="assets/images/logo-gamsc.png" alt="logo" height="426" width="1024"/>
+      <img class="img-center" ngSrc="assets/images/logo-gamsc.png" alt="logo" height="426" width="1024"
+           [priority]="true"/>
     </div>
 
-    <app-map #appMap [lineRoutes]="lineRoutesSelected" [showChannels]="showChannels" [showStands]="showStands"></app-map>
+    <app-map #appMap [lineRoutes]="lineRoutesSelected" [showChannels]="showChannels"
+             [showStands]="showStands"></app-map>
 
     <div class="btn-menu-container">
       <button mat-raised-button color="warn" (click)="sidenav.open()">Menú</button>
