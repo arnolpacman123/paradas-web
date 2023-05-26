@@ -54,26 +54,26 @@ export class HomeComponent {
   }
 
   enableMyLocation() {
-    alert('Habilitar geolocalización');
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.appMap.myLocation = {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         };
+        this.appMap.map.panTo(this.appMap.myLocation);
       }, (error) => {
-        switch(error.code) {
+        switch (error.code) {
           case error.PERMISSION_DENIED:
-           alert("User denied the request for Geolocation.");
+            alert('El usuario no ha permitido el acceso a la geolocalización.');
             break;
           case error.POSITION_UNAVAILABLE:
-           alert("Location information is unavailable.");
+            alert('La información de la geolocalización no está disponible.');
             break;
           case error.TIMEOUT:
-           alert("The request to get user location timed out.");
+            alert('La petición de geolocalización ha caducado.');
             break;
           default:
-           alert("An unknown error occurred.");
+            alert('Se ha producido un error desconocido.');
             break;
         }
       });
