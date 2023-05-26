@@ -57,7 +57,6 @@ export class HomeComponent {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         if (this.appMap.isGpsEnabled) {
-          console.log('GPS enabled');
           const { latitude, longitude } = position.coords;
           this.appMap.myLocation = {
             lat: latitude,
@@ -67,7 +66,6 @@ export class HomeComponent {
           this.appMap.map.panTo(this.appMap.myLocation);
           this.appMap.observeMyLocation();
         } else {
-          console.log('GPS disabled');
           this.appMap.isGpsEnabled = false;
           navigator.geolocation.clearWatch(this.appMap.watchId);
         }
