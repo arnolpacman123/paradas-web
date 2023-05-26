@@ -35,6 +35,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     streetViewControl: true,
     mapTypeControlOptions: {
       position: google.maps.ControlPosition.RIGHT_TOP,
+      style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
     },
     restriction: {
       latLngBounds: {
