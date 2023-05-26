@@ -39,7 +39,6 @@ export class MapService {
         });
       });
       if (nearestPolyline) {
-        // find all polylines with same busLine
         const nearestPolylines = polylines.filter(polyline => polyline.busLine === nearestPolyline.busLine);
         observer.next(nearestPolylines);
       } else {
@@ -59,7 +58,7 @@ export class MapService {
       `${ environment.apiUrl }/polylines/channels`
     );
   }
-  
+
 
   getLines() {
     return this.http.get<Line[]>(
