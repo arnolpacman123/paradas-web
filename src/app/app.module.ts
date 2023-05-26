@@ -12,9 +12,10 @@ import { HomeComponent } from './home/home.component';
 import { MapComponent } from './home/map/map.component';
 import { GoogleMapsModule } from "@angular/google-maps";
 import { NgOptimizedImage } from "@angular/common";
+import { SidebarComponent } from './home/sidebar/sidebar.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, MapComponent],
+  declarations: [AppComponent, HomeComponent, MapComponent, SidebarComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

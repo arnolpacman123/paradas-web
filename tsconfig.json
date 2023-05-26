@@ -24,6 +24,9 @@
       "dom"
     ],
     "paths": {
+      "@home/*": [
+        "src/app/home/*"
+      ],
       "@models/*": [
         "src/app/models/*"
       ],

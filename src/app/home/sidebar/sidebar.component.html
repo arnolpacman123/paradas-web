@@ -1,0 +1,46 @@
+<ng-container *ngIf="!showLineRouteInfo; else showLineInfo">
+
+  <div class="mt-4">
+    <div class="text-center">
+      <h2>Opciones de Canales</h2>
+    </div>
+    <div class="text-center mt-3">
+      <mat-slide-toggle color="primary" (click)="toggleShowChannels()">
+        Mostrar Canales
+      </mat-slide-toggle>
+    </div>
+    <div class="text-center mt-4">
+      <mat-slide-toggle color="primary" (click)="toggleShowStands()">
+        Mostrar Paradas
+      </mat-slide-toggle>
+    </div>
+  </div>
+
+  <mat-divider class="mt-4"></mat-divider>
+  <h2 class="text-center mt-4">Líneas de Micros</h2>
+
+  <div *ngFor="let line of lines" class="container px-3 py-1">
+    <div class="text-center">
+      <h2>{{ line.name | titlecase }}</h2>
+    </div>
+    <div class="text-center">
+      <img src="https://icon-library.com/images/bus-icon-png/bus-icon-png-29.jpg" alt="bus" height="50vh"
+           style="cursor: pointer" (click)="selectLine(line.name)">
+    </div>
+    <div class="text-center mt-3">
+      <button mat-raised-button color="primary" (click)="selectLine(line.name)">
+        Ver ruta
+      </button>
+      <button mat-raised-button color="warn" class="mx-2">
+        Ver Más
+      </button>
+    </div>
+    <mat-divider class="mt-4"></mat-divider>
+  </div>
+</ng-container>
+
+<ng-template
+  #showLineInfo
+>
+
+</ng-template>

@@ -2,8 +2,9 @@ import { Component, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MapService } from '@services/map.service';
 import { Line, Polyline } from '@models/interfaces/maps';
-import { MapComponent } from "./map/map.component";
+import { MapComponent } from "@home/map/map.component";
 import Swal from 'sweetalert2';
+import { SidebarComponent } from "@home/sidebar/sidebar.component";
 
 @Component({
   selector: 'app-home',
@@ -13,10 +14,9 @@ import Swal from 'sweetalert2';
 export class HomeComponent {
   @ViewChild('sidenav') sidenav!: MatSidenav;
   @ViewChild('appMap') appMap!: MapComponent;
+  @ViewChild('appSidebar') appSidebar!: SidebarComponent;
 
   lines: Line[] = [];
-
-  isLoading = true;
 
   lineRoutesSelected!: Polyline[];
 
@@ -33,21 +33,6 @@ export class HomeComponent {
 
   closeSidenav(): void {
     this.sidenav.toggle();
-  }
-
-  selectLine(line: string) {
-    this.isLoading = true;
-    this.mapService.getPolylinesByLine(line).subscribe({
-      next: (polylines) => {
-        this.lineRoutesSelected = polylines;
-        this.closeSidenav();
-        this.isLoading = false;
-      },
-      error: () => {
-        this.closeSidenav();
-        this.isLoading = false;
-      },
-    });
   }
 
 
