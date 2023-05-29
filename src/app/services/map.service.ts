@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { environment } from "@environments/environment.prod";
 import { Observable } from "rxjs";
-import { Line, Polyline } from '@models/interfaces/maps';
+import { Line, LineRoutes, Polyline } from '@models/interfaces/maps';
 
 @Injectable({
   providedIn: 'root'
@@ -20,27 +20,46 @@ export class MapService {
     );
   }
 
-  findClosestPolylineAndPoint(polylines: Polyline[], point: google.maps.LatLngLiteral) {
-    return new Observable<Polyline[]>(observer => {
+  
+  getLineRoutesByLine(line: string) {
+    return this.http.get<LineRoutes>(
+      `${ environment.apiUrl }/lines-routes/${ line }`
+    );
+  }
+
+  findClosestPolylineAndPoint(linesRoutes: LineRoutes[], point: google.maps.LatLngLiteral) {
+    return new Observable<LineRoutes>(observer => {
       let minDistance = Infinity;
-      let nearestPolyline!: Polyline;
+      let nearestLineRoutes!: LineRoutes;
 
-      polylines.forEach(polyline => {
-        (polyline.options.path as google.maps.LatLngLiteral[]).forEach(pointPath => {
-          const distance = google.maps.geometry.spherical.computeDistanceBetween(
-            new google.maps.LatLng(pointPath),
-            new google.maps.LatLng(point)
-          );
-
-          if (distance < minDistance) {
-            minDistance = distance;
-            nearestPolyline = polyline;
-          }
+      linesRoutes.forEach(lineRoutes => {
+        lineRoutes.lineRoutesOptions.forEach(lineRouteOption => {
+          (lineRouteOption.options.path as google.maps.LatLngLiteral[]).forEach(pointPath => {
+            const distance = google.maps.geometry.spherical.computeDistanceBetween(
+              new google.maps.LatLng(pointPath),
+              new google.maps.LatLng(point)
+            );
+    
+            if (distance < minDistance) {
+              minDistance = distance;
+              nearestLineRoutes = lineRoutes;
+            }
+          });         
         });
+        // (polyline.options.path as google.maps.LatLngLiteral[]).forEach(pointPath => {
+        //   const distance = google.maps.geometry.spherical.computeDistanceBetween(
+        //     new google.maps.LatLng(pointPath),
+        //     new google.maps.LatLng(point)
+        //   );
+
+        //   if (distance < minDistance) {
+        //     minDistance = distance;
+        //     nearestPolyline = polyline;
+        //   }
+        // });
       });
-      if (nearestPolyline) {
-        const nearestPolylines = polylines.filter(polyline => polyline.busLine === nearestPolyline.busLine);
-        observer.next(nearestPolylines);
+      if (nearestLineRoutes) {
+        observer.next(nearestLineRoutes);
       } else {
         observer.error('Polyline not found');
       }
@@ -48,8 +67,8 @@ export class MapService {
   }
 
   findAllLinesRoutes() {
-    return this.http.get<Polyline[]>(
-      `${ environment.apiUrl }/polylines/lines-routes`
+    return this.http.get<LineRoutes[]>(
+      `${ environment.apiUrl }/lines-routes`
     );
   }
 

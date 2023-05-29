@@ -21,7 +21,20 @@
     </map-marker>
   </ng-container>
 
-  <map-polyline *ngFor="let lineRoute of lineRoutes" [options]="lineRoute.options"></map-polyline>
+  <ng-container
+    *ngIf="lineRoutes"
+  >
+    <map-polyline
+      [options]="lineRoutes.lineRoutesOptions[0].options"
+      (polylineClick)="showLineRouteInfo($event, lineRoutes.lineRoutesOptions[0])"
+    >
+    </map-polyline>
+    <map-polyline
+      [options]="lineRoutes.lineRoutesOptions[1].options"
+      (polylineClick)="showLineRouteInfo($event, lineRoutes.lineRoutesOptions[1])"
+    >
+    </map-polyline>
+  </ng-container>
 
   <ng-container *ngIf="showChannels">
     <map-polyline *ngFor="let channel of allChannels" [options]="channel.options"></map-polyline>

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Line, Polyline } from "@models/interfaces/maps";
+import { Line, LineRoutes } from "@models/interfaces/maps";
 import { MapService } from "@services/map.service";
 
 @Component({
@@ -17,9 +17,8 @@ export class SidebarComponent {
   @Input()
   lines!: Line[];
 
-
   @Input()
-  lineRoutesSelected!: Polyline[];
+  lineRoutesSelected!: LineRoutes;
 
   showLineRouteInfo: boolean = false;
 
@@ -30,7 +29,7 @@ export class SidebarComponent {
   showStandsChange = new EventEmitter<boolean>();
 
   @Output()
-  lineRoutesSelectedChange = new EventEmitter<Polyline[]>();
+  lineRoutesSelectedChange = new EventEmitter<LineRoutes>();
 
   lineSelected!: string;
 
@@ -40,16 +39,26 @@ export class SidebarComponent {
   }
 
   selectLine(line: string) {
-    this.mapService.getPolylinesByLine(line).subscribe({
-      next: (polylines) => {
-        this.lineRoutesSelected = polylines;
+    this.mapService.getLineRoutesByLine(line).subscribe({
+      next: (lineRoutes) => {
+        this.lineRoutesSelected = lineRoutes;
         this.lineRoutesSelectedChange.emit(this.lineRoutesSelected);
       },
       error: () => {
-        this.lineRoutesSelected = [];
+        this.lineRoutesSelected = undefined!;
         this.lineRoutesSelectedChange.emit(this.lineRoutesSelected);
       },
     });
+    // this.mapService.getPolylinesByLine(line).subscribe({
+    //   next: (polylines) => {
+    //     this.lineRoutesSelected = polylines;
+    //     this.lineRoutesSelectedChange.emit(this.lineRoutesSelected);
+    //   },
+    //   error: () => {
+    //     this.lineRoutesSelected = [];
+    //     this.lineRoutesSelectedChange.emit(this.lineRoutesSelected);
+    //   },
+    // });
   }
 
   toggleShowChannels() {

@@ -1,14 +1,14 @@
 import {
   AfterViewInit,
   Component,
-  ElementRef,
+  ElementRef, EventEmitter,
   Input,
   NgZone,
   OnDestroy,
-  OnInit,
+  OnInit, Output,
   ViewChild,
 } from '@angular/core';
-import { Marker, Polyline } from '@models/interfaces/maps';
+import { LineRouteOptions, LineRoutes, Marker, Polyline } from '@models/interfaces/maps';
 import { GoogleMap, MapInfoWindow } from '@angular/google-maps';
 import { MapService } from '@services/map.service';
 import { ActivatedRoute } from '@angular/router';
@@ -17,7 +17,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  styleUrls: [ './map.component.scss' ],
+  styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('myGoogleMap', { static: false })
@@ -50,7 +50,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     streetViewControlOptions: {
       position: google.maps.ControlPosition.LEFT_BOTTOM,
     },
-    mapId: 'a24e498d0a606a2d'
+    mapId: 'a24e498d0a606a2d',
   };
   center: google.maps.LatLngLiteral = {
     lat: -17.797612047846986,
@@ -69,11 +69,14 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   };
 
   @Input()
-  lineRoutes!: Polyline[];
+  lineRoutes!: LineRoutes;
+
+  @Output()
+  lineRoutesChange = new EventEmitter<LineRoutes>();
 
   destinationMarker!: Marker;
 
-  allLinesRoutes: Polyline[] = [];
+  allLinesRoutes: LineRoutes[] = [];
 
   allChannels: Polyline[] = [];
 
@@ -107,7 +110,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private readonly mapService: MapService,
     private readonly ngZone: NgZone,
-    private readonly route: ActivatedRoute,
+    private readonly route: ActivatedRoute
   ) {
     this.mapService.findAllLinesRoutes().subscribe({
       next: (lineRoutes) => {
@@ -149,7 +152,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       () => {
         this.isGpsEnabled = false;
         this.myLocation = undefined!;
-        this.showAlert('error', 'Oops...', 'El GPS no esta activado, por favor activalo para poder ver tu ubicación en el mapa.');
+        this.showAlert(
+          'error',
+          'Oops...',
+          'El GPS no esta activado, por favor activalo para poder ver tu ubicación en el mapa.'
+        );
       },
       {
         enableHighAccuracy: true,
@@ -174,7 +181,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!standString) {
           return;
         }
-        const [ lat, lng ] = (standString as string)
+        const [lat, lng] = (standString as string)
           .split(',')
           .map((value) => +value);
         this.putMarker({ lat, lng });
@@ -213,6 +220,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
           .subscribe({
             next: (nearestPolylines) => {
               this.lineRoutes = nearestPolylines;
+              this.lineRoutesChange.emit(nearestPolylines);
             },
           });
         this.destinationMarker = {
@@ -248,6 +256,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe({
         next: (nearestPolylines) => {
           this.lineRoutes = nearestPolylines;
+          this.lineRoutesChange.emit(nearestPolylines);
           this.isLoading = false;
         },
       });
@@ -259,7 +268,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       lng: event.latLng.lng(),
     };
     this.putMarker(position);
-    this.lineRoutes = [];
+    this.lineRoutes = undefined!;
+    this.lineRoutesChange.emit(undefined!);
   }
 
   putMarker(position: google.maps.LatLngLiteral) {
@@ -273,7 +283,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   clearMarker() {
     this.destinationMarker = undefined!;
-    this.lineRoutes = [];
+    this.lineRoutes = undefined!;
+    this.lineRoutesChange.emit(undefined!);
   }
 
   get height(): number {
@@ -286,5 +297,13 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     //     this.nearestPolyline = polyline;
     //   },
     // });
+  }
+
+  showLineRouteInfo($event: any, lineRoutesOptions: LineRouteOptions) {
+    this.showAlert(
+      'info',
+      `LÍNEA: ${ this.lineRoutes.name }`,
+      `RUTA: ${ lineRoutesOptions.direction }`,
+    );
   }
 }
