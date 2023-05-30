@@ -288,7 +288,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   get height(): number {
-    return window.innerHeight - 90;
+    return window.innerHeight - 75;
   }
 
   private putPolylineClosestToStand(param: google.maps.LatLngLiteral) {
