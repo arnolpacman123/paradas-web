@@ -24,7 +24,7 @@
       <h2>{{ line.name | titlecase }}</h2>
     </div>
     <div class="text-center">
-      <img src="https://icon-library.com/images/bus-icon-png/bus-icon-png-29.jpg" alt="bus" height="50vh"
+      <img [src]="'https://imagenes-micros.s3.amazonaws.com/' + getFileImage(line.name) " alt="bus" width="100vh"
            style="cursor: pointer" (click)="selectShowLineRouteInfo(line.name)">
     </div>
     <div class="text-center mt-3">

@@ -7,15 +7,12 @@
 
   <mat-sidenav-content>
 
-    <div class="logo-container">
-      <img class="img-center" ngSrc="assets/images/logo-gamsc.png" alt="logo" height="426" width="1024"
-           [priority]="true"/>
-    </div>
+    <app-header></app-header>
 
     <app-map #appMap [(lineRoutes)]="lineRoutesSelected" [showChannels]="showChannels"
              [showStands]="showStands"></app-map>
 
-    <div class="btn-menu-container">
+    <div class="container-menu-btn">
       <button mat-raised-button color="warn" (click)="sidenav.open()">Menú</button>
     </div>
 

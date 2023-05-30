@@ -24,7 +24,7 @@
   <ng-container
     *ngIf="lineRoutes"
   >
-    <map-polyline
+    <!-- <map-polyline
       [options]="lineRoutes.lineRoutesOptions[0].options"
       (polylineClick)="showLineRouteInfo($event, lineRoutes.lineRoutesOptions[0])"
     >
@@ -32,6 +32,12 @@
     <map-polyline
       [options]="lineRoutes.lineRoutesOptions[1].options"
       (polylineClick)="showLineRouteInfo($event, lineRoutes.lineRoutesOptions[1])"
+    >
+    </map-polyline> -->
+    <map-polyline
+      *ngFor="let lineRouteOptions of lineRoutes.lineRoutesOptions"
+      [options]="lineRouteOptions.options"
+      (polylineClick)="showLineRouteInfo($event, lineRouteOptions)"
     >
     </map-polyline>
   </ng-container>

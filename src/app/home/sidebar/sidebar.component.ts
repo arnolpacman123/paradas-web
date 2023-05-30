@@ -75,4 +75,8 @@ export class SidebarComponent {
     this.showLineRouteInfo = !this.showLineRouteInfo;
     this.lineSelected = line;
   }
+
+  getFileImage(line: string) {
+    return `LINEA ${line}.jpg`.replace(' ', '+');
+  }
 }

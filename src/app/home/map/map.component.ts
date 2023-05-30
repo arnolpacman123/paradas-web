@@ -51,6 +51,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       position: google.maps.ControlPosition.LEFT_BOTTOM,
     },
     mapId: 'a24e498d0a606a2d',
+    zoomControl: false,
   };
   center: google.maps.LatLngLiteral = {
     lat: -17.797612047846986,

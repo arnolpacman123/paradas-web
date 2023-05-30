@@ -1,17 +1,3 @@
-.logo-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 75px;
-  background-color: #ffffff;
-}
-
-.logo-container img {
-  max-height: 100%;
-  max-width: 100%;
-  height: auto;
-  width: auto;
-}
 
 .sidenav-container {
   position: absolute;
@@ -32,9 +18,9 @@
   }
 }
 
-.btn-menu-container {
+.container-menu-btn {
   position: absolute;
-  top: calc(90px + 20px);
+  top: calc(75px + 15px);
   left: 20px;
   z-index: 1;
 }
@@ -61,8 +47,8 @@
 .container-my-location {
   position: absolute;
   z-index: 1;
-  bottom: 90px;
-  left: 20px;
+  bottom: 80px;
+  right: 20px;
 }
 
 .icon-display {
