@@ -33,10 +33,10 @@ export class SidebarComponent {
 
   lineSelected!: string;
 
-  searchText!: string;
+  searchText: string = '';
 
   @Input()
-  result!: Line[];
+  result: Line[] = this.lines;
 
   constructor(
     private readonly mapService: MapService,
