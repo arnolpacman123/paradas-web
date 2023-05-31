@@ -5,7 +5,7 @@ import { MapService } from "@services/map.service";
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: [ './sidebar.component.scss' ]
+  styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent {
   @Input()
@@ -33,6 +33,11 @@ export class SidebarComponent {
 
   lineSelected!: string;
 
+  searchText!: string;
+
+  @Input()
+  result!: Line[];
+
   constructor(
     private readonly mapService: MapService,
   ) {
@@ -49,16 +54,14 @@ export class SidebarComponent {
         this.lineRoutesSelectedChange.emit(this.lineRoutesSelected);
       },
     });
-    // this.mapService.getPolylinesByLine(line).subscribe({
-    //   next: (polylines) => {
-    //     this.lineRoutesSelected = polylines;
-    //     this.lineRoutesSelectedChange.emit(this.lineRoutesSelected);
-    //   },
-    //   error: () => {
-    //     this.lineRoutesSelected = [];
-    //     this.lineRoutesSelectedChange.emit(this.lineRoutesSelected);
-    //   },
-    // });
+  }
+
+  search(searchText: string) {
+    this.result = this.lines.filter((line) => line.name.includes(searchText.toUpperCase()));
+  }
+
+  onSearchText() {
+    this.search(this.searchText);
   }
 
   toggleShowChannels() {

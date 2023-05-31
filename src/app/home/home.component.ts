@@ -56,23 +56,24 @@ export class HomeComponent {
       }, (error) => {
         const errorIcon = 'error';
         const errorTitle = 'Oops...';
-        switch (error.code) {
-          case error.PERMISSION_DENIED:
-            this.showAlert(errorIcon, errorTitle, 'El usuario no ha permitido el acceso a la geolocalización.');
-            break;
-          case error.POSITION_UNAVAILABLE:
-            this.showAlert(errorIcon, errorTitle, 'La información de la geolocalización no está disponible.');
-            break;
-          case error.TIMEOUT:
-            this.showAlert(errorIcon, errorTitle, 'La petición de geolocalización ha caducado.');
-            break;
-          default:
-            this.showAlert(errorIcon, errorTitle, 'Se ha producido un error desconocido.');
-            break;
-        }
+        const errorText = this.getLocationErrorMessage(error);
+        this.showAlert(errorIcon, errorTitle, errorText);
       });
     } else {
       this.showAlert('error', 'Oops...', 'La geolocalización no está disponible en este dispositivo.');
+    }
+  }
+
+  getLocationErrorMessage(error: GeolocationPositionError) {
+    switch (error.code) {
+      case error.PERMISSION_DENIED:
+        return 'El usuario no ha permitido el acceso a la geolocalización.';
+      case error.POSITION_UNAVAILABLE:
+        return 'La información de la geolocalización no está disponible.';
+      case error.TIMEOUT:
+        return 'La petición de geolocalización ha caducado.';
+      default:
+        return 'Se ha producido un error desconocido.';
     }
   }
 
