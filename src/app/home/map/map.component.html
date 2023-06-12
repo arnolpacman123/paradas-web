@@ -1,5 +1,11 @@
-<input matInput type="text" class="my-search-box mb" (keydown.enter)="$event.preventDefault()"
-       placeholder="Introduce el destino" #search/>
+<input
+  matInput
+  type="text"
+  class="my-search-box mb"
+  (keydown.enter)="$event.preventDefault()"
+  placeholder="Introduce el destino"
+  #search
+/>
 
 <google-map
   #myGoogleMap
@@ -8,22 +14,23 @@
   [options]="options"
   [center]="center"
   [zoom]="zoom"
-  (mapClick)="eventHandler($event,'mapClick')"
-  (mapDblclick)="eventHandler($event,'mapDblclick')"
-  (mapDrag)="eventHandler($event,'mapDrag')"
-  (mapDragend)="eventHandler($event,'mapDragend')"
-  (mapRightclick)="eventHandler($event,'mapRightclick')"
-  (zoomChanged)="eventHandler($event,'zoomChanged')"
+  (mapClick)="eventHandler($event, 'mapClick')"
+  (mapDblclick)="eventHandler($event, 'mapDblclick')"
+  (mapDrag)="eventHandler($event, 'mapDrag')"
+  (mapDragend)="eventHandler($event, 'mapDragend')"
+  (mapRightclick)="eventHandler($event, 'mapRightclick')"
+  (zoomChanged)="eventHandler($event, 'zoomChanged')"
 >
-
   <ng-container *ngIf="myLocation">
-    <map-marker [position]="myLocation" title="Mi Ubicación" [options]="myLocationOptions">
+    <map-marker
+      [position]="myLocation"
+      title="Mi Ubicación"
+      [options]="myLocationOptions"
+    >
     </map-marker>
   </ng-container>
 
-  <ng-container
-    *ngIf="lineRoutes"
-  >
+  <ng-container *ngIf="lineRoutes">
     <!-- <map-polyline
       [options]="lineRoutes.lineRoutesOptions[0].options"
       (polylineClick)="showLineRouteInfo($event, lineRoutes.lineRoutesOptions[0])"
@@ -43,26 +50,45 @@
   </ng-container>
 
   <ng-container *ngIf="showChannels">
-    <map-polyline *ngFor="let channel of allChannels" [options]="channel.options"></map-polyline>
+    <map-polyline
+      *ngFor="let channel of allChannels"
+      [options]="channel.options"
+    ></map-polyline>
   </ng-container>
 
   <ng-container *ngIf="destinationMarker">
-    <map-marker [position]="destinationMarker.position" [title]="destinationMarker.title!"
-                [options]="destinationMarker.options!" (mapDblclick)="clearMarker()">
+    <map-marker
+      [position]="destinationMarker.position"
+      [title]="destinationMarker.title!"
+      [options]="destinationMarker.options!"
+      (mapDblclick)="clearMarker()"
+    >
     </map-marker>
     >
   </ng-container>
 
   <ng-container *ngIf="nearestPolylines">
-    <map-polyline *ngFor="let polyline of nearestPolylines" [options]="polyline.options"></map-polyline>
+    <map-polyline
+      *ngFor="let polyline of nearestPolylines"
+      [options]="polyline.options"
+    ></map-polyline>
   </ng-container>
 
   <ng-container *ngIf="showStands">
-    <map-marker *ngFor="let stand of allStands" [position]="stand.position" [icon]="standIcon">
+    <map-marker
+      *ngFor="let stand of allStands"
+      [position]="stand.position"
+      [icon]="standIcon"
+    >
     </map-marker>
   </ng-container>
 
+  <ng-container *ngIf="polylineResult"> 
+    <map-polyline
+      [path]="polylineResult.getPath()"
+    >
+    </map-polyline>
+  </ng-container>
 
   <map-info-window>{{ infoContent }}</map-info-window>
-
 </google-map>

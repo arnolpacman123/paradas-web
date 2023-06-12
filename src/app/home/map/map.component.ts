@@ -1,14 +1,21 @@
 import {
   AfterViewInit,
   Component,
-  ElementRef, EventEmitter,
+  ElementRef,
+  EventEmitter,
   Input,
   NgZone,
   OnDestroy,
-  OnInit, Output,
+  OnInit,
+  Output,
   ViewChild,
 } from '@angular/core';
-import { LineRouteOptions, LineRoutes, Marker, Polyline } from '@models/interfaces/maps';
+import {
+  LineRouteOptions,
+  LineRoutes,
+  Marker,
+  Polyline,
+} from '@models/interfaces/maps';
 import { GoogleMap, MapInfoWindow } from '@angular/google-maps';
 import { MapService } from '@services/map.service';
 import { ActivatedRoute } from '@angular/router';
@@ -107,6 +114,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     url: 'assets/images/bus.png',
     scaledSize: new google.maps.Size(45, 20),
   };
+
+  polylineResult!: google.maps.Polyline;
 
   constructor(
     private readonly mapService: MapService,
@@ -246,6 +255,19 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  getPolylinesFromLineRoutes(lineRoutes: LineRoutes[]): google.maps.Polyline[] {
+    const polylines: google.maps.Polyline[] = [];
+    for (const lineRoute of lineRoutes) {
+      for (const lineRouteOption of lineRoute.lineRoutesOptions) {
+        const polyline = new google.maps.Polyline({
+          path: lineRouteOption.options.path,
+        });
+        polylines.push(polyline);
+      }
+    }
+    return polylines;
+  }
+
   findClosestPolylineAndPoint(event: any) {
     this.isLoading = true;
     const point: google.maps.LatLngLiteral = {
@@ -303,8 +325,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   showLineRouteInfo($event: any, lineRoutesOptions: LineRouteOptions) {
     this.showAlert(
       'info',
-      `LÍNEA: ${ this.lineRoutes.name }`,
-      `RUTA: ${ lineRoutesOptions.direction }`,
+      `LÍNEA: ${this.lineRoutes.name}`,
+      `RUTA: ${lineRoutesOptions.direction}`
     );
   }
 }
