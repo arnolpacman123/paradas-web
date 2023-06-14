@@ -1,27 +1,49 @@
-<mat-sidenav-container class="sidenav-container" (backdropClick)="closeSidenav()">
-  <mat-sidenav class="sidenav" #sidenav (keydown.escape)="closeSidenav()" [autoFocus]="false" fixedBottomGap="0">
-
-    <app-sidebar [lines]="lines" [(showChannels)]="showChannels" [(showStands)]="showStands"
-      [(lineRoutesSelected)]="lineRoutesSelected" (lineRoutesSelectedChange)="closeSidenav()" [result]="lines"></app-sidebar>
-
+<mat-sidenav-container
+  class="sidenav-container"
+  (backdropClick)="closeSidenav()"
+>
+  <mat-sidenav
+    class="sidenav"
+    #sidenav
+    (keydown.escape)="closeSidenav()"
+    [autoFocus]="false"
+    fixedBottomGap="0"
+  >
+    <app-sidebar
+      [lines]="lines"
+      [(showChannels)]="showChannels"
+      [(showStands)]="showStands"
+      [(lineRoutesSelected)]="lineRoutesSelected"
+      (lineRoutesSelectedChange)="closeSidenav()"
+      [result]="lines"
+    ></app-sidebar>
   </mat-sidenav>
 
   <mat-sidenav-content>
-
     <app-header></app-header>
 
-    <app-map #appMap [(lineRoutes)]="lineRoutesSelected" [showChannels]="showChannels"
-      [showStands]="showStands"></app-map>
+    <app-map
+      #appMap
+      [(lineRoutes)]="lineRoutesSelected"
+      [showChannels]="showChannels"
+      [showStands]="showStands"
+    ></app-map>
 
     <div class="container-menu-btn">
-      <button mat-raised-button color="warn" (click)="sidenav.open()">Menú</button>
-    </div>
-
-    <div class="container-my-location">
-      <button mat-fab color="warn" class="btn-circular" (click)="enableMyLocation()">
-        <mat-icon class="icon-display">my_location</mat-icon>
+      <button mat-raised-button color="warn" (click)="sidenav.open()">
+        Menú
       </button>
     </div>
 
+    <div class="container-my-location">
+      <button
+        mat-fab
+        color="warn"
+        class="btn-circular"
+        (click)="enableMyLocation()"
+      >
+        <mat-icon class="icon-display">my_location</mat-icon>
+      </button>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

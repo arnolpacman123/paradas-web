@@ -4,14 +4,6 @@ import { environment } from '@environments/environment.prod';
 import { Observable } from 'rxjs';
 import { Line, LineRoutes, Polyline } from '@models/interfaces/maps';
 
-interface RouteNode {
-  route: google.maps.Polyline;
-  parent: RouteNode;
-  gScore: number;
-  hScore: number;
-  fScore: number;
-}
-
 @Injectable({
   providedIn: 'root',
 })

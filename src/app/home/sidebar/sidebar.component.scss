@@ -1,3 +1,18 @@
 .full-width {
-    width: 80%;
+  width: 80%;
+}
+
+.img-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+  background-color: #ffffff;
+}
+
+.img-container img {
+  max-height: 100%;
+  max-width: 100%;
+  height: auto;
+  width: auto;
 }

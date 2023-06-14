@@ -1,7 +1,7 @@
 <input
   matInput
   type="text"
-  class="my-search-box mb"
+  class="my-search-box mt-4 form-control"
   (keydown.enter)="$event.preventDefault()"
   placeholder="Introduce el destino"
   #search
@@ -29,7 +29,7 @@
     >
     </map-marker>
   </ng-container>
-
+z
   <ng-container *ngIf="lineRoutes">
     <!-- <map-polyline
       [options]="lineRoutes.lineRoutesOptions[0].options"
@@ -83,7 +83,7 @@
     </map-marker>
   </ng-container>
 
-  <ng-container *ngIf="polylineResult"> 
+  <ng-container *ngIf="polylineResult">
     <map-polyline
       [path]="polylineResult.getPath()"
     >

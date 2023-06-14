@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Line, LineRoutes } from "@models/interfaces/maps";
-import { MapService } from "@services/map.service";
+import { Line, LineRoutes } from '@models/interfaces/maps';
+import { MapService } from '@services/map.service';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss']
+  styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent {
   @Input()
@@ -38,10 +38,7 @@ export class SidebarComponent {
   @Input()
   result: Line[] = this.lines;
 
-  constructor(
-    private readonly mapService: MapService,
-  ) {
-  }
+  constructor(private readonly mapService: MapService) {}
 
   selectLine(line: string) {
     this.mapService.getLineRoutesByLine(line).subscribe({
@@ -57,7 +54,9 @@ export class SidebarComponent {
   }
 
   search(searchText: string) {
-    this.result = this.lines.filter((line) => line.name.includes(searchText.toUpperCase()));
+    this.result = this.lines.filter((line) =>
+      line.name.includes(searchText.toUpperCase())
+    );
   }
 
   onSearchText() {
