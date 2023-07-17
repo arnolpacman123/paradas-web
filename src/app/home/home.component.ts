@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MapService } from '@services/map.service';
-import { Line, LineRoutes, Polyline } from '@models/interfaces/maps';
+import { Line, LineRoutes } from '@models/interfaces/maps';
 import { MapComponent } from "@home/map/map.component";
 import Swal from 'sweetalert2';
 import { SidebarComponent } from "@home/sidebar/sidebar.component";

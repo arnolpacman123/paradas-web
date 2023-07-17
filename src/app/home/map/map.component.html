@@ -1,5 +1,4 @@
 <input
-  matInput
   type="text"
   class="my-search-box mt-4 form-control"
   (keydown.enter)="$event.preventDefault()"
@@ -21,6 +20,7 @@
   (mapRightclick)="eventHandler($event, 'mapRightclick')"
   (zoomChanged)="eventHandler($event, 'zoomChanged')"
 >
+  <map-transit-layer></map-transit-layer>
   <ng-container *ngIf="myLocation">
     <map-marker
       [position]="myLocation"
@@ -86,6 +86,7 @@ z
   <ng-container *ngIf="polylineResult">
     <map-polyline
       [path]="polylineResult.getPath()"
+      [options]="polylineResultOptions"
     >
     </map-polyline>
   </ng-container>

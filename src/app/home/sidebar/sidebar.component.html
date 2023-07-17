@@ -32,7 +32,7 @@
 
   <div *ngFor="let line of result" class="container px-3 py-1">
     <div class="text-center">
-      <h2>LÍNEA {{ line.name | titlecase }}</h2>
+      <h2>Línea {{ line.name | titlecase }}</h2>
     </div>
     <div class="text-center img-container">
       <img
@@ -43,15 +43,14 @@
         style="cursor: pointer"
         width="100%"
         height="100%"
-        (click)="selectShowLineRouteInfo(line.name)"
       />
     </div>
-    <div class="text-center mt-3">
-      <button mat-raised-button color="warn" (click)="selectLine(line.name)">
+    <div class="text-center mt-4">
+      <button mat-flat-button color="warn" (click)="selectLine(line.name)">
         Ver ruta
       </button>
       <button
-        mat-raised-button
+        mat-flat-button
         color="primary"
         class="mx-2"
         (click)="selectShowLineRouteInfo(line.name)"
@@ -65,16 +64,22 @@
 
 <ng-template #showLineInfo>
   <div class="container mt-5">
-    <div class="text-center">
+    <!-- Botón con una flecha para volver -->
+    <div>
+      <button mat-icon-button (click)="toggleShowLineRouteInfo()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
+    <div class="text-center ">
       <h2>Línea {{ lineSelected | titlecase }}</h2>
     </div>
-    <div class="text-center">
+    <div class="text-center img-container">
       <img
-        src="https://icon-library.com/images/bus-icon-png/bus-icon-png-29.jpg"
+        [src]="'https://imagenes-micros.s3.amazonaws.com/' + getFileImage(lineSelected)"
         alt="bus"
-        height="50vh"
+        width="100%"
+        height="100%"
         style="cursor: pointer"
-        (click)="selectShowLineRouteInfo(lineSelected)"
       />
     </div>
   </div>

@@ -74,8 +74,12 @@ export class SidebarComponent {
   }
 
   selectShowLineRouteInfo(line: string) {
-    this.showLineRouteInfo = !this.showLineRouteInfo;
+    this.toggleShowLineRouteInfo();
     this.lineSelected = line;
+  }
+
+  toggleShowLineRouteInfo() {
+    this.showLineRouteInfo = !this.showLineRouteInfo;
   }
 
   getFileImage(line: string) {

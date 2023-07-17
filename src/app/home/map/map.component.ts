@@ -53,7 +53,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         west: -63.59995002009344,
       },
     },
-    zoom: 14,
     streetViewControlOptions: {
       position: google.maps.ControlPosition.LEFT_BOTTOM,
     },
@@ -61,8 +60,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     zoomControl: false,
   };
   center: google.maps.LatLngLiteral = {
-    lat: -17.797612047846986,
-    lng: -63.19975002009344,
+    lat: -17.787612047846986,
+    lng: -63.17975002009344,
   };
 
   myLocationOptions: google.maps.MarkerOptions = {
@@ -98,7 +97,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   isLoading = false;
 
   nearestPolylines!: Polyline[];
-  zoom = 14;
+  zoom = 13;
 
   myLocation!: google.maps.LatLngLiteral;
 
@@ -116,6 +115,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   };
 
   polylineResult!: google.maps.Polyline;
+  polylineResultOptions: google.maps.PolylineOptions = {
+    strokeColor: '#5384ED',
+    strokeOpacity: 1,
+    strokeWeight: 4,
+  };
 
   constructor(
     private readonly mapService: MapService,
@@ -225,14 +229,29 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
           lng: place.geometry.location?.lng()!,
         };
 
-        this.mapService
-          .findClosestPolylineAndPoint(this.allLinesRoutes, position)
-          .subscribe({
-            next: (nearestPolylines) => {
-              this.lineRoutes = nearestPolylines;
-              this.lineRoutesChange.emit(nearestPolylines);
-            },
-          });
+        // Preguntar si el gps esta activado
+        if (!this.isGpsEnabled) {
+          this.showAlert(
+            'error',
+            'Oops...',
+            'El GPS no esta activado, por favor activalo para poder ver tu ubicación en el mapa.'
+          );
+          return;
+        }
+
+        // this.mapService
+        //   .findClosestPolylineAndPoint(this.allLinesRoutes, position)
+        //   .subscribe({
+        //     next: (nearestPolylines) => {
+        //       this.lineRoutes = nearestPolylines;
+        //       this.lineRoutesChange.emit(nearestPolylines);
+        //     },
+        //   });
+        // this.mapService.findClosestRoute(this.myLocation, position).subscribe({
+        //   next: (polylineResult) => {
+        //     this.polylineResult = polylineResult;
+        //   },
+        // });
         this.destinationMarker = {
           position,
         };
@@ -274,15 +293,31 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       lat: event.latLng.lat(),
       lng: event.latLng.lng(),
     };
-    this.mapService
-      .findClosestPolylineAndPoint(this.allLinesRoutes, point)
-      .subscribe({
-        next: (nearestPolylines) => {
-          this.lineRoutes = nearestPolylines;
-          this.lineRoutesChange.emit(nearestPolylines);
-          this.isLoading = false;
-        },
-      });
+    // this.mapService
+    //   .findClosestPolylineAndPoint(this.allLinesRoutes, point)
+    //   .subscribe({
+    //     next: (nearestPolylines) => {
+    //       this.lineRoutes = nearestPolylines;
+    //       this.lineRoutesChange.emit(nearestPolylines);
+    //       this.isLoading = false;
+    //     },
+    //   });
+    this.mapService.findBestLines(this.allLinesRoutes, point, this.myLocation!).subscribe({
+      next: (nearestPolylines) => {
+        this.lineRoutes = nearestPolylines[0];
+      },
+    });
+    // this.mapService.findClosestRoute(this.myLocation!, point).subscribe({
+    //   next: (polylineResult) => {
+    //     this.polylineResult = polylineResult;
+    //     let path = polylineResult.getPath().getArray() as any[];
+    //     path = path.map((value) => {
+    //       return { lat: value.lat(), lng: value.lng() };
+    //     });
+    //     console.log({ path });
+    //     this.isLoading = false;
+    //   },
+    // });
   }
 
   dropMarker(event: any) {
