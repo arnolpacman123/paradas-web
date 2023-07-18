@@ -350,11 +350,12 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private putPolylineClosestToStand(param: google.maps.LatLngLiteral) {
-    // this.mapService.findOneByStand(param).subscribe({
-    //   next: (polyline) => {
-    //     this.nearestPolyline = polyline;
-    //   },
-    // });
+    this.mapService.findOneByStand(param).subscribe({
+      next: (polyline) => {
+        console.log(polyline);
+        // this.nearestPolyline = polyline;
+      },
+    });
   }
 
   showLineRouteInfo($event: any, lineRoutesOptions: LineRouteOptions) {
