@@ -91,5 +91,12 @@ z
     </map-polyline>
   </ng-container>
 
+  <ng-container *ngIf="nearestPolyline">
+    <map-polyline
+      [options]="nearestPolyline.options"
+    >
+    </map-polyline>
+  </ng-container>
+
   <map-info-window>{{ infoContent }}</map-info-window>
 </google-map>

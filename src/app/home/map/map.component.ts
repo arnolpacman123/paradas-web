@@ -121,6 +121,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     strokeWeight: 4,
   };
 
+  nearestPolyline!: Polyline;
+
   constructor(
     private readonly mapService: MapService,
     private readonly ngZone: NgZone,
@@ -352,8 +354,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   private putPolylineClosestToStand(param: google.maps.LatLngLiteral) {
     this.mapService.findOneByStand(param).subscribe({
       next: (polyline) => {
-        console.log(polyline);
-        // this.nearestPolyline = polyline;
+        this.nearestPolyline = polyline;
       },
     });
   }
