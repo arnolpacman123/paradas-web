@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:3000/api',
+  apiUrl: 'https://smtt-paradas-api-6e8180f3ecd4.herokuapp.com/api',
 };
